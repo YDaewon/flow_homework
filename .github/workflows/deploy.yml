@@ -76,9 +76,6 @@ jobs:
             # 네트워크 생성 (없으면 무시)
             docker network create app_network || true
 
-            # DB는 항상 up -d (최초 실행 시 컨테이너 생성, 이후엔 유지됨)
-            docker-compose -f docker-compose.db.yml up -d
-
             # 백엔드 교체
             docker pull $IMAGE_URI
             docker-compose -f docker-compose.backend.yml down
