@@ -63,11 +63,13 @@ jobs:
           script: |
             cd ~/deploy/infra
 
-            export DB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}
-            export DB_NAME=${{ secrets.DB_NAME }}
-            export DB_USER=${{ secrets.DB_USER }}
-            export DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            export IMAGE_URI=${{ env.IMAGE_URI }}
+            cat > .env <<EOF
+            DB_ROOT_PASSWORD=${{ secrets.DB_ROOT_PASSWORD }}
+            DB_NAME=${{ secrets.DB_NAME }}
+            DB_USER=${{ secrets.DB_USER }}
+            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+            IMAGE_URI=${{ env.IMAGE_URI }}
+            EOF
 
             # ECR 로그인
             aws ecr get-login-password --region ${{ secrets.AWS_REGION }} \
