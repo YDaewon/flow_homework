@@ -1,4 +1,6 @@
-package com.homework.homework.common.response;
+package com.homework.homework.common.exception;
+
+import com.homework.homework.common.response.BaseResponseStatus;
 
 import lombok.Getter;
 
