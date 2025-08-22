@@ -43,9 +43,9 @@ public class Extension extends BaseEntity {
         this.isActive = active;
     }
 
-    public static Extension from(CustomExtensionDto dto) {
+    public static Extension from(String name) {
         return Extension.builder()
-                .name(dto.name())
+                .name(name)
                 .isActive(true)
                 .type(ExtensionType.CUSTOM)
                 .build();
