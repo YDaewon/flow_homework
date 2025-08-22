@@ -7,6 +7,12 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
 logging:
   level:
-    org.springframework: DEBUG
+    org.springframework: INFO
