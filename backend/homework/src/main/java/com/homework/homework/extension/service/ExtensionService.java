@@ -2,66 +2,55 @@ package com.homework.homework.extension.service;
 
 import java.util.List;
 
-import org.springframework.stereotype.Service;
-
-import static com.homework.homework.common.response.BaseResponseStatus.*;
-import com.homework.homework.common.response.BusinessException;
 import com.homework.homework.extension.entity.Extension;
-import com.homework.homework.extension.entity.ExtensionType;
 import com.homework.homework.extension.entity.dto.CustomExtensionDto;
 import com.homework.homework.extension.entity.dto.ToggleActiveDto;
-import com.homework.homework.extension.repository.ExtensionRepository;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.RequiredArgsConstructor;
 
 
-@RequiredArgsConstructor
-@Service
-public class ExtensionService {
-    private final ExtensionRepository extensionRepository;
 
+/**
+ * 파일 확장자 관리 서비스 인터페이스.
+ * <p>
+ * - 고정 확장자 활성/비활성 토글<br>
+ * - 커스텀 확장자 추가/삭제<br>
+ * - 전체 확장자 조회
+ * </p>
+ */
+public interface ExtensionService {
+
+    /**
+     * 등록된 전체 확장자를 조회합니다.
+     *
+     * @return 전체 확장자 리스트
+     */
     @Transactional(readOnly = true)
-    public List<Extension> getAllExtensions() {
-        return extensionRepository.findAll();
-    }
+    public List<Extension> getAllExtensions();
 
+    /**
+     * 고정 확장자의 활성/비활성 상태를 변경합니다.
+     *
+     * @param dto 토글할 확장자 DTO
+     * @return 변경된 확장자 엔티티
+     */
     @Transactional
-    public Extension toggleExtension(ToggleActiveDto dto) {
-        Extension extension = getExtensionByName(dto.name());
-        
-        if(extension.getType() == ExtensionType.CUSTOM) throw new BusinessException(BAD_REQUEST);
-        
-        extension.toggleActive(dto.active());
+    public Extension toggleExtension(ToggleActiveDto dto);
 
-        return extension;
-    }
-
+    /**
+     * 새로운 커스텀 확장자를 생성합니다.
+     *
+     * @param dto 추가할 확장자 DTO
+     * @return 생성된 확장자 엔티티
+     */
     @Transactional
-    public Extension createExtension(CustomExtensionDto dto) {
+    public Extension createExtension(CustomExtensionDto dto);
 
-        extensionRepository.findByName(dto.name())
-        .ifPresent(e -> {
-            throw new BusinessException(BAD_REQUEST);
-        });
-
-        Extension extension = Extension.from(dto);
-
-        return extensionRepository.save(extension);
-    }
-
+    /**
+     * 커스텀 확장자를 삭제합니다.
+     *
+     * @param dto 삭제할 확장자 DTO
+     * @return 삭제된 확장자 엔티티
+     */
     @Transactional
-    public Extension deleteExtension(CustomExtensionDto dto) {
-        Extension extension = getExtensionByName(dto.name());
-        
-        if(extension.getType() != ExtensionType.CUSTOM) throw new BusinessException(BAD_REQUEST);
-        
-        extensionRepository.delete(extension);
-        
-        return extension;
-    }
-
-    private Extension getExtensionByName(String name) {
-        return extensionRepository.findByName(name)
-                .orElseThrow(() -> new BusinessException(NOT_FOUND));
-    }
+    public Extension deleteExtension(CustomExtensionDto dto);
 }
