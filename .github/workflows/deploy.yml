@@ -79,6 +79,6 @@ jobs:
             docker network create app_network || true
 
             # 백엔드 교체
-            docker pull $IMAGE_URI
+            docker pull $(grep IMAGE_URI .env | cut -d '=' -f2)
             docker-compose -f docker-compose.backend.yml down
             docker-compose -f docker-compose.backend.yml up -d
