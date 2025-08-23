@@ -17,8 +17,9 @@ public enum BaseResponseStatus {
     CUSTOM_NOT_CHANGED(false, HttpStatus.BAD_REQUEST, 1002, "사용자 정의 확장자는 활성화/비활성화를 변경할 수 없습니다."),
     NOT_NORMAL_NAME(false, HttpStatus.BAD_REQUEST, 1003, "정상적인 확장자 명이 아닙니다."),
     EXTENSION_ALREADY_EXISTS(false, HttpStatus.BAD_REQUEST, 1004, "이미 존재하는 확장자 명입니다."),
-    ONLY_CUSTOM_DELETE(false, HttpStatus.BAD_REQUEST, 1005, "사용자 정의 확장자만 삭제할 수 있습니다.")
-;
+    ONLY_CUSTOM_DELETE(false, HttpStatus.BAD_REQUEST, 1005, "사용자 정의 확장자만 삭제할 수 있습니다."),
+    CUSTOM_LIMIT_EXCEEDED(false, HttpStatus.BAD_REQUEST, 1006, "사용자 정의 확장자는 최대 200개까지 생성할 수 있습니다.")
+    ;
 
     private final boolean isSuccess;
     @JsonIgnore
