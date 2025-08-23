@@ -54,6 +54,11 @@ public class ExtensionServiceImpl implements ExtensionService {
             throw new BusinessException(EXTENSION_ALREADY_EXISTS);
         });
 
+        long customCount = extensionRepository.countByType(ExtensionType.CUSTOM);
+        if (customCount >= 200) {
+            throw new BusinessException(CUSTOM_LIMIT_EXCEEDED);
+        }
+
         Extension extension = Extension.from(normalizedExt);
 
         return extensionRepository.save(extension);
